@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.p-menubar-root-list > .p-menuitem-active > p-menubarsub > .p-submenu-list {
+  width: 210px;
+}
+
+.header-menu {
+  .p-menubar-end {
+    display: none;
+  }
+
+  p-menubarsub {
+    margin-left: auto;
+  }
+}
