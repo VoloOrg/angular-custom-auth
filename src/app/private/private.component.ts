@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MenuItem } from 'primeng/api';
@@ -12,7 +12,7 @@ import { AuthActions } from '../store/actions/auth.actions';
   styleUrls: ['./private.component.scss'],
   imports: [RouterOutlet, MenubarModule],
 })
-export class PrivateComponent {
+export class PrivateComponent implements OnInit {
   private readonly store = inject(Store);
 
   items: MenuItem[] = [
@@ -37,4 +37,6 @@ export class PrivateComponent {
       command: () => this.store.dispatch(AuthActions.logout()),
     },
   ];
+
+  ngOnInit(): void {}
 }

@@ -11,31 +11,20 @@ export const appReducer = createReducer(
   immerOn(AppActions.applicationInit, (state) => {
     state.initLoading = true;
   }),
-  immerOn(AppActions.getCurrentUserSuccess, (state, payload) => {
-    debugger;
-    state.initLoading = false;
-    if (payload.data) {
-      state.isAuth = true;
-      localStorage.setItem('isAuth', 'true');
-    } else {
-      state.isAuth = false;
-      localStorage.clear();
-    }
+  immerOn(AppActions.getInfoSuccess, (state) => {
+    state.isAuth = true;
   }),
-  immerOn(AppActions.getCurrentUserError, (state) => {
-    debugger;
+  immerOn(AppActions.getInfoError, (state) => {
     state.initLoading = false;
+    state.isAuth = false;
   }),
   immerOn(AuthActions.loginSuccess, (state) => {
     state.isAuth = true;
-    localStorage.setItem('isAuth', 'true');
   }),
   immerOn(AuthActions.logoutSuccess, (state) => {
     state.isAuth = false;
-    localStorage.clear();
   }),
   immerOn(AuthActions.registerSuccess, (state) => {
-    localStorage.setItem('isAuth', 'true');
     state.isAuth = true;
   })
 );

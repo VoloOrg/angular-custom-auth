@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
@@ -18,9 +18,14 @@ import * as AppEffects from './store/effects/app.effects';
 import { BASE_URL } from './shared/api';
 import { environment } from '../environments/environment';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
+import { appInitializer } from './app-initializer.factory';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+    },
     provideStore(
       {},
       {

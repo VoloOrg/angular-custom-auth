@@ -6,8 +6,8 @@ export const AppActions = createActionGroup({
   events: {
     'Application init': emptyProps(),
 
-    'Get Current User': emptyProps(),
-    'Get Current User Success': httpSuccessProps<boolean>(),
-    'Get Current User Error': httpErrorProps(),
+    'Get Info': emptyProps(),
+    'Get Info Success': emptyProps(),
+    'Get Info Error': httpErrorProps(),
   },
 });

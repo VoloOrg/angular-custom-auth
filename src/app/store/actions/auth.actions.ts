@@ -9,7 +9,7 @@ export const AuthActions = createActionGroup({
   source: '[Auth]',
   events: {
     Login: props<{ data: Login }>(),
-    'Login Success': httpSuccessProps<boolean>(),
+    'Login Success': emptyProps(),
     'Login Error': httpErrorProps(),
 
     Logout: emptyProps(),

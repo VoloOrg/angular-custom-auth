@@ -6,7 +6,6 @@ import { appFeature } from '../../store/features/app.feature';
 export function authGuard() {
   const store = inject(Store);
   const router = inject(Router);
-  debugger;
   const isAuth = store.selectSignal(appFeature.selectIsAuth)();
   return isAuth || router.navigate(['/login']);
 }

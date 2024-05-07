@@ -8,11 +8,11 @@ import { AppActions } from '../actions/app.actions';
 export const appInit$ = createEffect(
   (actions = inject(Actions), service = inject(AuthService)) => {
     return actions.pipe(
-      ofType(AppActions.applicationInit, AppActions.getCurrentUser),
+      ofType(AppActions.applicationInit, AppActions.getInfo),
       switchMap(() =>
-        service.getCurrentUser().pipe(
-          map((payload) => AppActions.getCurrentUserSuccess(payload)),
-          catchError((error) => of(AppActions.getCurrentUserError({ error })))
+        service.getInfo().pipe(
+          map(() => AppActions.getInfoSuccess()),
+          catchError((error) => of(AppActions.getInfoError({ error })))
         )
       )
     );

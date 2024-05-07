@@ -11,7 +11,7 @@ export const login$ = createEffect(
       ofType(AuthActions.login),
       switchMap(({ data }) =>
         service.login(data).pipe(
-          map((payload) => AuthActions.loginSuccess(payload)),
+          map(() => AuthActions.loginSuccess()),
           catchError((error) => of(AuthActions.loginError({ error })))
         )
       )
@@ -24,10 +24,8 @@ export const loginSuccess$ = createEffect(
   (actions = inject(Actions), router = inject(Router)) => {
     return actions.pipe(
       ofType(AuthActions.loginSuccess),
-      tap(({ data }) => {
-        if (data) {
-          router.navigate(['/']);
-        }
+      tap(() => {
+        router.navigate(['/']);
       })
     );
   },
