@@ -2,14 +2,14 @@ import { inject } from '@angular/core';
 import { ResolveFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { take, tap } from 'rxjs';
-import { AppActions } from '../../store/actions/app.actions';
+import { AuthAccountActions } from '../../store/actions/auth-account.actions';
 
-export const AuthResolver: ResolveFn<void> = () => {
+export const CurrentUserResolver: ResolveFn<void> = () => {
   const store = inject(Store);
   return store.pipe(
     take(1),
     tap(() => {
-      store.dispatch(AppActions.getInfoSuccess()); // Dispatch action to get current user
+      store.dispatch(AuthAccountActions.getCurrentUser()); // Dispatch action to get current user
     })
   );
 };

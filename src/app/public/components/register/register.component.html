@@ -1,4 +1,8 @@
-<div class="px-5 min-h-screen flex justify-content-center align-items-center">
+<form
+  class="px-5 min-h-screen flex justify-content-center align-items-center"
+  [formGroup]="registerForm"
+  (ngSubmit)="onRegister()"
+>
   <div
     class="border-1 surface-border surface-card border-round py-7 px-4 md:px-7 z-1"
   >
@@ -10,12 +14,20 @@
       <span class="p-input-icon-left w-full mb-4">
         <i class="pi pi-envelope"></i>
         <input
-          id="email"
-          type="text"
+          type="email"
           pInputText
           placeholder="Email"
+          formControlName="email"
           class="w-full md:w-25rem"
       /></span>
+      <span class="w-full mb-4">
+        <p-dropdown
+          [options]="roles"
+          formControlName="role"
+          placeholder="Select a Role"
+          [style]="{ width: '100%' }"
+        />
+      </span>
       <span class="p-input-icon-left w-full mb-4"
         ><i class="pi pi-lock"></i
         ><input
@@ -23,6 +35,7 @@
           type="password"
           pInputText
           placeholder="Password"
+          formControlName="password"
           class="w-full md:w-25rem"
       /></span>
       <button pButton pRipple label="Sign Up" class="w-full mb-4"></button>
@@ -36,4 +49,4 @@
       </span>
     </div>
   </div>
-</div>
+</form>

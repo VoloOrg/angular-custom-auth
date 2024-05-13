@@ -5,6 +5,7 @@ import {
   RegisterComponent,
   ResetPasswordComponent,
 } from './components';
+import { CheckRegisterResolver, CheckResetResolver } from '../shared/resolvers';
 
 const PublicComponentLoader = () =>
   import('./public.component').then((c) => c.PublicComponent);
@@ -19,16 +20,22 @@ export const publicRoutes: Routes = [
         component: LoginComponent,
       },
       {
-        path: 'register',
-        component: RegisterComponent,
-      },
-      {
         path: 'reset-password',
         component: ResetPasswordComponent,
+        resolve: {
+          canReset: CheckResetResolver,
+        },
       },
       {
         path: 'forgot-password',
         component: ForgotPasswordComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+        resolve: {
+          canRegister: CheckRegisterResolver,
+        },
       },
     ],
   },

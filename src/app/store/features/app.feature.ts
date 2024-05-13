@@ -4,28 +4,22 @@ import { immerOn } from 'ngrx-immer/store';
 import { Features } from '../features.enum';
 import { AppActions } from '../actions/app.actions';
 import { initialAppState } from '../states/app.state';
-import { AuthActions } from '../actions/auth.actions';
+import { AuthConnectActions } from '../actions/auth-connect.actions';
+import { AuthAccountActions } from '../actions/auth-account.actions';
 
 export const appReducer = createReducer(
   initialAppState,
   immerOn(AppActions.applicationInit, (state) => {
-    state.initLoading = true;
+    const isAuth = localStorage.getItem('isAuth');
+    state.isAuth = !!isAuth;
   }),
-  immerOn(AppActions.getInfoSuccess, (state) => {
+  immerOn(AuthConnectActions.loginSuccess, (state) => {
+    localStorage.setItem('isAuth', 'true');
     state.isAuth = true;
   }),
-  immerOn(AppActions.getInfoError, (state) => {
-    state.initLoading = false;
+  immerOn(AuthAccountActions.logout, (state) => {
+    localStorage.clear();
     state.isAuth = false;
-  }),
-  immerOn(AuthActions.loginSuccess, (state) => {
-    state.isAuth = true;
-  }),
-  immerOn(AuthActions.logoutSuccess, (state) => {
-    state.isAuth = false;
-  }),
-  immerOn(AuthActions.registerSuccess, (state) => {
-    state.isAuth = true;
   })
 );
 

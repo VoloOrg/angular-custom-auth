@@ -4,7 +4,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
 import { ToastService } from './toast.service';
-import { AuthActions } from '../../store/actions/auth.actions';
+import { AuthAccountActions } from '../../store/actions/auth-account.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class ErrorHandlerService extends ErrorHandler {
       }
       switch (error.status) {
         case HttpStatusCode.Unauthorized:
-          this.store.dispatch(AuthActions.logout());
+          this.store.dispatch(AuthAccountActions.logout());
           break;
         case HttpStatusCode.NotFound:
           if (canRedirect) {

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -14,9 +9,9 @@ import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { AuthActions } from '../../../store/actions/auth.actions';
 import { ForgotPassword } from '../../../shared/interfaces';
-import { authFeature } from '../../../store/features';
+import { authConnectFeature } from '../../../store/features';
+import { AuthConnectActions } from '../../../store/actions/auth-connect.actions';
 
 @Component({
   standalone: true,
@@ -26,20 +21,18 @@ import { authFeature } from '../../../store/features';
   imports: [InputTextModule, RouterLink, ButtonModule, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent {
   private readonly router = inject(Router);
   private readonly store = inject(Store);
-  loading = this.store.selectSignal(authFeature.selectForgotPasswordLoading);
+  loading = this.store.selectSignal(
+    authConnectFeature.selectForgotPasswordLoading
+  );
 
   forgotPasswordForm = new FormGroup({
     email: new FormControl('', {
-      validators: [Validators.required, Validators.email],
-      nonNullable: true,
+      validators: [Validators.required],
     }),
   });
-  constructor() {}
-
-  ngOnInit() {}
 
   onCancel() {
     this.router.navigate(['/login']);
@@ -48,7 +41,7 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     if (this.forgotPasswordForm.valid) {
       this.store.dispatch(
-        AuthActions.forgotPassword({
+        AuthConnectActions.forgotPassword({
           data: this.forgotPasswordForm.value as ForgotPassword,
         })
       );

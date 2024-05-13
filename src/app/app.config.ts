@@ -11,10 +11,14 @@ import { MessageService } from 'primeng/api';
 
 import { routes } from './app.routes';
 
-import { appFeature, authFeature } from './store/features';
+import {
+  appFeature,
+  authAccountFeature,
+  authConnectFeature,
+} from './store/features';
 import { GlobalEffects } from './store/effects/global.effects';
-import * as AuthEffects from './store/effects/auth.effects';
-import * as AppEffects from './store/effects/app.effects';
+import * as AuthAccountEffects from './store/effects/auth-account.effects';
+import * as AuthConnectEffects from './store/effects/auth-connect.effects';
 import { BASE_URL } from './shared/api';
 import { environment } from '../environments/environment';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
@@ -38,14 +42,14 @@ export const appConfig: ApplicationConfig = {
       }
     ),
     provideState(appFeature),
-    provideState(authFeature),
+    provideState(authConnectFeature),
+    provideState(authAccountFeature),
     provideState('router', routerReducer),
-    provideEffects([GlobalEffects, AuthEffects, AppEffects]),
+    provideEffects([GlobalEffects, AuthAccountEffects, AuthConnectEffects]),
     provideRouter(routes),
     provideAnimations(),
     provideRouterStore(),
     provideHttpClient(withInterceptorsFromDi()),
-
     MessageService,
     {
       provide: BASE_URL,

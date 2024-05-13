@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard, notAuthGuard } from './shared/guards';
+import { CurrentUserResolver } from './shared/resolvers/private.resolver';
 
 const PublicRoutingLoader = () =>
   import('./public/public.routing').then((m) => m.publicRoutes);
@@ -12,6 +13,9 @@ export const routes: Routes = [
     path: '',
     loadChildren: PrivateRoutingLoader,
     canActivate: [authGuard],
+    resolve: {
+      currentUser: CurrentUserResolver,
+    },
   },
   {
     path: '',

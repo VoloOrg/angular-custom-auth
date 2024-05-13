@@ -1,9 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
-import { AuthActions } from '../store/actions/auth.actions';
+import { AuthAccountActions } from '../store/actions/auth-account.actions';
 
 @Component({
   standalone: true,
@@ -11,8 +11,9 @@ import { AuthActions } from '../store/actions/auth.actions';
   templateUrl: './private.component.html',
   styleUrls: ['./private.component.scss'],
   imports: [RouterOutlet, MenubarModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PrivateComponent implements OnInit {
+export class PrivateComponent {
   private readonly store = inject(Store);
 
   items: MenuItem[] = [
@@ -27,16 +28,15 @@ export class PrivateComponent implements OnInit {
         },
         {
           icon: 'pi pi-fw pi-user',
-          label: 'User',
+          label: 'Invite User',
+          routerLink: '/invite-user',
         },
       ],
     },
     {
       label: 'Quit',
       icon: 'pi pi-fw pi-power-off',
-      command: () => this.store.dispatch(AuthActions.logout()),
+      command: () => this.store.dispatch(AuthAccountActions.logout()),
     },
   ];
-
-  ngOnInit(): void {}
 }

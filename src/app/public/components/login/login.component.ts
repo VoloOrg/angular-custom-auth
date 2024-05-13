@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RouterLink } from '@angular/router';
@@ -15,9 +10,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AuthActions } from '../../../store/actions/auth.actions';
 import { Login } from '../../../shared/interfaces';
-import { authFeature } from '../../../store/features';
+import { authConnectFeature } from '../../../store/features';
+import { AuthConnectActions } from '../../../store/actions/auth-connect.actions';
 
 @Component({
   standalone: true,
@@ -33,25 +28,22 @@ import { authFeature } from '../../../store/features';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   private readonly store = inject(Store);
-  loading = this.store.selectSignal(authFeature.selectLoginLoading);
+  loading = this.store.selectSignal(authConnectFeature.selectLoginLoading);
   loginForm = new FormGroup({
     email: new FormControl('', {
-      validators: [Validators.required, Validators.email],
+      validators: [Validators.required],
     }),
     password: new FormControl('', {
       validators: [Validators.required],
     }),
   });
-  constructor() {}
-
-  ngOnInit() {}
 
   onLogin() {
     if (this.loginForm.valid) {
       this.store.dispatch(
-        AuthActions.login({ data: this.loginForm.value as Login })
+        AuthConnectActions.login({ data: this.loginForm.value as Login })
       );
     }
   }

@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { AuthActions } from '../../../store/actions/auth.actions';
 import { ChangePassword } from '../../../shared/interfaces';
+import { AuthAccountActions } from '../../../store/actions/auth-account.actions';
 
 @Component({
   standalone: true,
@@ -24,13 +24,13 @@ export class ChangePasswordComponent {
   private readonly store = inject(Store);
   private readonly router = inject(Router);
   changePasswordForm = new FormGroup({
-    email: new FormControl('', {
-      validators: [Validators.required, Validators.email],
-    }),
-    oldPassword: new FormControl('', {
+    currentPassword: new FormControl('', {
       validators: [Validators.required],
     }),
     newPassword: new FormControl('', {
+      validators: [Validators.required],
+    }),
+    confirmPassword: new FormControl('', {
       validators: [Validators.required],
     }),
   });
@@ -42,7 +42,7 @@ export class ChangePasswordComponent {
   onUpdatePassword() {
     if (this.changePasswordForm.valid) {
       this.store.dispatch(
-        AuthActions.changePassword({
+        AuthAccountActions.changePassword({
           data: this.changePasswordForm.value as ChangePassword,
         })
       );
