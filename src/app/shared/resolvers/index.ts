@@ -1,3 +1,2 @@
-export * from './check-reset.resolver';
-export * from './check-register.resolver';
+export * from './check-token-validation.resolver';
 export * from './private.resolver';

@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { ChangePassword, User } from '../../shared/interfaces';
+import { ChangePassword, InviteUser, User } from '../../shared/interfaces';
 import { httpErrorProps, httpSuccessProps } from '../../shared/functions';
 
 /**
@@ -19,5 +19,9 @@ export const AuthAccountActions = createActionGroup({
     'Get Current User': emptyProps(),
     'Get Current User Success': httpSuccessProps<User>(),
     'Get Current User Error': httpErrorProps(),
+
+    'Invite User': props<{ data: InviteUser }>(),
+    'Invite User Success': httpSuccessProps<boolean>(),
+    'Invite User Error': httpErrorProps(),
   },
 });

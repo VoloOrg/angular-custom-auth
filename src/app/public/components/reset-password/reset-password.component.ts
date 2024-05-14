@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -17,7 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Login } from '../../../shared/interfaces';
+import { Login, ResetPassword } from '../../../shared/interfaces';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 
@@ -49,7 +44,7 @@ export class ResetPasswordComponent {
     token: new FormControl(this.token(), {
       validators: [Validators.required],
     }),
-    password: new FormControl('', {
+    newPassword: new FormControl('', {
       validators: [Validators.required],
     }),
     confirmPassword: new FormControl('', {
@@ -60,7 +55,9 @@ export class ResetPasswordComponent {
   onReset() {
     if (this.resetForm.valid) {
       this.store.dispatch(
-        AuthConnectActions.login({ data: this.resetForm.value as Login })
+        AuthConnectActions.resetPassword({
+          data: this.resetForm.value as ResetPassword,
+        })
       );
     }
   }

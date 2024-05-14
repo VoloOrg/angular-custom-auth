@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ChangePassword } from '../../../shared/interfaces';
 import { AuthAccountActions } from '../../../store/actions/auth-account.actions';
+import { confirmedValidator } from '../../../shared/validators/confirm.validator';
 
 @Component({
   standalone: true,
@@ -23,17 +24,22 @@ import { AuthAccountActions } from '../../../store/actions/auth-account.actions'
 export class ChangePasswordComponent {
   private readonly store = inject(Store);
   private readonly router = inject(Router);
-  changePasswordForm = new FormGroup({
-    currentPassword: new FormControl('', {
-      validators: [Validators.required],
-    }),
-    newPassword: new FormControl('', {
-      validators: [Validators.required],
-    }),
-    confirmPassword: new FormControl('', {
-      validators: [Validators.required],
-    }),
-  });
+  changePasswordForm = new FormGroup(
+    {
+      currentPassword: new FormControl('', {
+        validators: [Validators.required],
+      }),
+      newPassword: new FormControl('', {
+        validators: [Validators.required],
+      }),
+      confirmPassword: new FormControl('', {
+        validators: [Validators.required],
+      }),
+    },
+    {
+      validators: [confirmedValidator('newPassword', 'confirmPassword')],
+    }
+  );
 
   onCancel() {
     this.router.navigate(['/']);

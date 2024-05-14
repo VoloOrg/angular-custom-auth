@@ -6,13 +6,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Login } from '../../../shared/interfaces';
+import { InviteUser, Login } from '../../../shared/interfaces';
 import { InputTextModule } from 'primeng/inputtext';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { Role } from '../../../shared/enums/role.enum';
 import { AuthConnectActions } from '../../../store/actions/auth-connect.actions';
+import { AuthAccountActions } from '../../../store/actions/auth-account.actions';
 
 @Component({
   standalone: true,
@@ -50,7 +51,9 @@ export class InviteUserComponent {
   onSendInvitation() {
     if (this.inviteForm.valid) {
       this.store.dispatch(
-        AuthConnectActions.register({ data: this.inviteForm.value as Login })
+        AuthAccountActions.inviteUser({
+          data: this.inviteForm.value as InviteUser,
+        })
       );
     }
   }

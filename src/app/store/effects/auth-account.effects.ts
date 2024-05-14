@@ -2,11 +2,11 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthService } from '../../shared/services';
+import { AuthAccountService } from '../../shared/services';
 import { AuthAccountActions } from '../actions/auth-account.actions';
 
 export const Logout$ = createEffect(
-  (actions = inject(Actions), service = inject(AuthService)) => {
+  (actions = inject(Actions), service = inject(AuthAccountService)) => {
     return actions.pipe(
       ofType(AuthAccountActions.logout),
       switchMap(() =>
@@ -21,7 +21,7 @@ export const Logout$ = createEffect(
 );
 
 export const changePassword$ = createEffect(
-  (actions = inject(Actions), service = inject(AuthService)) => {
+  (actions = inject(Actions), service = inject(AuthAccountService)) => {
     return actions.pipe(
       ofType(AuthAccountActions.changePassword),
       switchMap(({ data }) =>
@@ -38,7 +38,7 @@ export const changePassword$ = createEffect(
 );
 
 export const getCurrentUser$ = createEffect(
-  (actions = inject(Actions), service = inject(AuthService)) => {
+  (actions = inject(Actions), service = inject(AuthAccountService)) => {
     return actions.pipe(
       ofType(AuthAccountActions.getCurrentUser),
       switchMap(() =>
@@ -46,6 +46,23 @@ export const getCurrentUser$ = createEffect(
           map((payload) => AuthAccountActions.getCurrentUserSuccess(payload)),
           catchError((error) =>
             of(AuthAccountActions.getCurrentUserError({ error }))
+          )
+        )
+      )
+    );
+  },
+  { functional: true }
+);
+
+export const inviteUser$ = createEffect(
+  (actions = inject(Actions), service = inject(AuthAccountService)) => {
+    return actions.pipe(
+      ofType(AuthAccountActions.inviteUser),
+      switchMap(({ data }) =>
+        service.inviteUser(data).pipe(
+          map((payload) => AuthAccountActions.inviteUserSuccess(payload)),
+          catchError((error) =>
+            of(AuthAccountActions.inviteUserError({ error }))
           )
         )
       )
@@ -69,7 +86,10 @@ export const redirectToLogin$ = createEffect(
 export const redirectToDashboard$ = createEffect(
   (actions = inject(Actions), router = inject(Router)) => {
     return actions.pipe(
-      ofType(AuthAccountActions.changePasswordSuccess),
+      ofType(
+        AuthAccountActions.changePasswordSuccess,
+        AuthAccountActions.inviteUserSuccess
+      ),
       tap(() => {
         router.navigate(['/']);
       })

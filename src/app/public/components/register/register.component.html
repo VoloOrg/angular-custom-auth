@@ -31,11 +31,21 @@
       <span class="p-input-icon-left w-full mb-4"
         ><i class="pi pi-lock"></i
         ><input
-          id="password"
+          id="newPassword"
           type="password"
           pInputText
           placeholder="Password"
-          formControlName="password"
+          formControlName="newPassword"
+          class="w-full md:w-25rem"
+      /></span>
+      <span class="p-input-icon-left w-full mb-4"
+        ><i class="pi pi-lock"></i
+        ><input
+          id="confirmPassword"
+          type="password"
+          pInputText
+          placeholder="Confirm Password"
+          formControlName="confirmPassword"
           class="w-full md:w-25rem"
       /></span>
       <button pButton pRipple label="Sign Up" class="w-full mb-4"></button>

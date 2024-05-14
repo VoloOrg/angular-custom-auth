@@ -1,7 +1,8 @@
 import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { UrlSerializer, provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {
+  HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
@@ -23,6 +24,8 @@ import { BASE_URL } from './shared/api';
 import { environment } from '../environments/environment';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { appInitializer } from './app-initializer.factory';
+import CustomUrlSerializer from './shared/serializers/custom-url.serializer';
+import { HttpRequestInterceptor } from './shared/interceptors/http-request.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -54,6 +57,12 @@ export const appConfig: ApplicationConfig = {
     {
       provide: BASE_URL,
       useValue: environment.baseUrl,
+    },
+    { provide: UrlSerializer, useClass: CustomUrlSerializer },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpRequestInterceptor,
+      multi: true,
     },
   ],
 };

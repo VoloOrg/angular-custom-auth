@@ -36,30 +36,37 @@ export class RegisterComponent {
 
   readonly token = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('token')))
-  );
+  )();
   readonly role = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('role')))
-  );
+  )();
   readonly email = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('email')))
-  );
+  )();
 
   registerForm = new FormGroup({
-    email: new FormControl(this.email(), {
+    email: new FormControl(
+      {
+        value: this.email,
+        disabled: true,
+      },
+      { validators: [Validators.required] }
+    ),
+    role: new FormControl(
+      { value: this.role ? +this.role : '', disabled: true },
+      {
+        validators: [Validators.required],
+      }
+    ),
+    token: new FormControl(this.token, {
       validators: [Validators.required],
     }),
-    role: new FormControl(this.role(), {
+    newPassword: new FormControl('', {
       validators: [Validators.required],
     }),
-    // token: new FormControl(this.token(), {
-    //   validators: [Validators.required],
-    // }),
-    password: new FormControl('', {
+    confirmPassword: new FormControl('', {
       validators: [Validators.required],
     }),
-    // confirmPassword: new FormControl('', {
-    //   validators: [Validators.required],
-    // }),
   });
 
   roles = [
@@ -71,7 +78,9 @@ export class RegisterComponent {
   onRegister() {
     if (this.registerForm.valid) {
       this.store.dispatch(
-        AuthConnectActions.register({ data: this.registerForm.value as Login })
+        AuthConnectActions.register({
+          data: this.registerForm.getRawValue() as unknown as Login,
+        })
       );
     }
   }

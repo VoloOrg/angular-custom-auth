@@ -1,5 +1,5 @@
 export interface HttpResponse<T> {
   code: string | null;
-  Data: T;
+  data: T;
   message: string;
 }

@@ -2,11 +2,11 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthService } from '../../shared/services';
+import { AuthConnectService } from '../../shared/services';
 import { AuthConnectActions } from '../actions/auth-connect.actions';
 
 export const login$ = createEffect(
-  (actions = inject(Actions), service = inject(AuthService)) => {
+  (actions = inject(Actions), service = inject(AuthConnectService)) => {
     return actions.pipe(
       ofType(AuthConnectActions.login),
       switchMap(({ data }) =>
@@ -21,7 +21,7 @@ export const login$ = createEffect(
 );
 
 export const forgotPassword$ = createEffect(
-  (actions = inject(Actions), service = inject(AuthService)) => {
+  (actions = inject(Actions), service = inject(AuthConnectService)) => {
     return actions.pipe(
       ofType(AuthConnectActions.forgotPassword),
       switchMap(({ data }) =>
@@ -38,7 +38,7 @@ export const forgotPassword$ = createEffect(
 );
 
 export const resetPassword$ = createEffect(
-  (actions = inject(Actions), service = inject(AuthService)) => {
+  (actions = inject(Actions), service = inject(AuthConnectService)) => {
     return actions.pipe(
       ofType(AuthConnectActions.resetPassword),
       switchMap(({ data }) =>
@@ -55,7 +55,7 @@ export const resetPassword$ = createEffect(
 );
 
 export const register$ = createEffect(
-  (actions = inject(Actions), service = inject(AuthService)) => {
+  (actions = inject(Actions), service = inject(AuthConnectService)) => {
     return actions.pipe(
       ofType(AuthConnectActions.register),
       switchMap(({ data }) =>
@@ -69,17 +69,17 @@ export const register$ = createEffect(
   { functional: true }
 );
 
-export const checkRegisterToken$ = createEffect(
-  (actions = inject(Actions), service = inject(AuthService)) => {
+export const checkTokenValidation$ = createEffect(
+  (actions = inject(Actions), service = inject(AuthConnectService)) => {
     return actions.pipe(
-      ofType(AuthConnectActions.checkRegisterToken),
+      ofType(AuthConnectActions.checkTokenValidation),
       switchMap(({ data }) =>
-        service.checkRegisterToken(data).pipe(
+        service.checkTokenValidation(data).pipe(
           map((payload) =>
-            AuthConnectActions.checkRegisterTokeSuccess(payload)
+            AuthConnectActions.checkTokenValidationSuccess(payload)
           ),
           catchError((error) =>
-            of(AuthConnectActions.checkRegisterTokeError({ error }))
+            of(AuthConnectActions.checkTokenValidationError({ error }))
           )
         )
       )
@@ -88,29 +88,11 @@ export const checkRegisterToken$ = createEffect(
   { functional: true }
 );
 
-export const checkResetToken$ = createEffect(
-  (actions = inject(Actions), service = inject(AuthService)) => {
-    return actions.pipe(
-      ofType(AuthConnectActions.checkResetToken),
-      switchMap(({ data }) =>
-        service.checkResetToken(data).pipe(
-          map((payload) => AuthConnectActions.checkResetTokeSuccess(payload)),
-          catchError((error) =>
-            of(AuthConnectActions.checkResetTokeError({ error }))
-          )
-        )
-      )
-    );
-  },
-  { functional: true }
-);
-
-export const checkResetTokeSuccess$ = createEffect(
+export const checkTokenValidationSuccess$ = createEffect(
   (actions = inject(Actions), router = inject(Router)) => {
     return actions.pipe(
-      ofType(AuthConnectActions.checkResetTokeSuccess),
+      ofType(AuthConnectActions.checkTokenValidationSuccess),
       tap(({ data }) => {
-        debugger;
         if (!data) {
           router.navigate(['/login']);
         }
