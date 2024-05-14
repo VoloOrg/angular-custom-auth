@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://authentication-openiddict.azurewebsites.net',
+  baseUrl: 'https://authentication-openiddict-api.azurewebsites.net',
 };
