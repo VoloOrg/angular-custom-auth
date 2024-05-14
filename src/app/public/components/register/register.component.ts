@@ -15,6 +15,7 @@ import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Role } from '../../../shared/enums/role.enum';
 import { DropdownModule } from 'primeng/dropdown';
+import { confirmedValidator } from '../../../shared/validators/confirm.validator';
 
 @Component({
   standalone: true,
@@ -44,30 +45,35 @@ export class RegisterComponent {
     this.route.queryParamMap.pipe(map((params) => params.get('email')))
   )();
 
-  registerForm = new FormGroup({
-    email: new FormControl(
-      {
-        value: this.email,
-        disabled: true,
-      },
-      { validators: [Validators.required] }
-    ),
-    role: new FormControl(
-      { value: this.role ? +this.role : '', disabled: true },
-      {
+  registerForm = new FormGroup(
+    {
+      email: new FormControl(
+        {
+          value: this.email,
+          disabled: true,
+        },
+        { validators: [Validators.required] }
+      ),
+      role: new FormControl(
+        { value: this.role ? +this.role : '', disabled: true },
+        {
+          validators: [Validators.required],
+        }
+      ),
+      token: new FormControl(this.token, {
         validators: [Validators.required],
-      }
-    ),
-    token: new FormControl(this.token, {
-      validators: [Validators.required],
-    }),
-    newPassword: new FormControl('', {
-      validators: [Validators.required],
-    }),
-    confirmPassword: new FormControl('', {
-      validators: [Validators.required],
-    }),
-  });
+      }),
+      newPassword: new FormControl('', {
+        validators: [Validators.required],
+      }),
+      confirmPassword: new FormControl('', {
+        validators: [Validators.required],
+      }),
+    },
+    {
+      validators: [confirmedValidator('newPassword', 'confirmPassword')],
+    }
+  );
 
   roles = [
     { label: 'Admin', value: Role.Admin },
