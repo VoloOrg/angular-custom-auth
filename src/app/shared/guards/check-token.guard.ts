@@ -5,8 +5,7 @@ import { map, race } from 'rxjs';
 import { AuthConnectActions } from '../../store/actions/auth-connect.actions';
 import { Actions, ofType } from '@ngrx/effects';
 
-export function CheckTokenValidationResolver(route: ActivatedRouteSnapshot) {
-  debugger;
+export function CheckTokenGuard(route: ActivatedRouteSnapshot) {
   const store = inject(Store);
   const actions = inject(Actions);
   const data = {
