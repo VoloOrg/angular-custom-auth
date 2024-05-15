@@ -14,7 +14,7 @@ export const privateRoutes: Routes = [
     path: '',
     loadComponent: PrivateComponentLoader,
     children: [
-      { path: '', component: DashboardComponent, pathMatch: 'full' },
+      { path: '', component: DashboardComponent },
       { path: 'change-password', component: ChangePasswordComponent },
       {
         path: 'invite-user',

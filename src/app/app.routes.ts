@@ -12,8 +12,7 @@ export const routes: Routes = [
   {
     path: '',
     loadChildren: PrivateRoutingLoader,
-    canActivate: [authGuard],
-    canLoad: [CurrentUserResolver],
+    canActivate: [authGuard, CurrentUserResolver],
   },
   {
     path: '',
