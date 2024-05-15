@@ -3,6 +3,7 @@ import {
   CheckToken,
   ForgotPassword,
   Login,
+  Register,
   ResetPassword,
 } from '../../shared/interfaces';
 import { httpErrorProps, httpSuccessProps } from '../../shared/functions';
@@ -25,7 +26,7 @@ export const AuthConnectActions = createActionGroup({
     'Reset Password Success': httpSuccessProps<boolean>(),
     'Reset Password Error': httpErrorProps(),
 
-    Register: props<{ data: Login }>(),
+    Register: props<{ data: Register }>(),
     'Register Success': httpSuccessProps<boolean>(),
     'Register Error': httpErrorProps(),
 

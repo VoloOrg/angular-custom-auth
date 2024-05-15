@@ -7,6 +7,7 @@ import {
   CheckToken,
   ForgotPassword,
   Login,
+  Register,
   ResetPassword,
 } from '../interfaces';
 
@@ -20,7 +21,7 @@ export class AuthConnectService extends BaseHttp {
     return this.http.post<HttpResponse<string>>(url, data);
   }
 
-  register(data: Login): Observable<HttpResponse<boolean>> {
+  register(data: Register): Observable<HttpResponse<boolean>> {
     const url = `${this.url}/register`;
     return this.http.post<HttpResponse<boolean>>(url, data);
   }

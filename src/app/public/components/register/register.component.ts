@@ -21,6 +21,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Role } from '../../../shared/enums/role.enum';
 import { DropdownModule } from 'primeng/dropdown';
 import { confirmedValidator } from '../../../shared/validators/confirm.validator';
+import { Register } from '../../../shared/interfaces/auth/register.interface';
 
 @Component({
   standalone: true,
@@ -102,7 +103,7 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       this.store.dispatch(
         AuthConnectActions.register({
-          data: this.registerForm.getRawValue() as unknown as Login,
+          data: this.registerForm.getRawValue() as Register,
         })
       );
     }
