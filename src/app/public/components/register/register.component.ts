@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -9,7 +14,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { Login } from '../../../shared/interfaces';
+import { CheckToken, Login } from '../../../shared/interfaces';
 import { AuthConnectActions } from '../../../store/actions/auth-connect.actions';
 import { map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -31,7 +36,7 @@ import { confirmedValidator } from '../../../shared/validators/confirm.validator
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   private readonly store = inject(Store);
   private readonly route = inject(ActivatedRoute);
 
@@ -43,6 +48,9 @@ export class RegisterComponent {
   )();
   readonly email = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('email')))
+  )();
+  readonly type = toSignal(
+    this.route.queryParamMap.pipe(map((params) => params.get('type')))
   )();
 
   registerForm = new FormGroup(
@@ -80,6 +88,15 @@ export class RegisterComponent {
     { label: 'General', value: Role.General },
     { label: 'Special', value: Role.Special },
   ];
+
+  ngOnInit(): void {
+    const data = {
+      email: this.email,
+      token: this.token,
+      type: this.type,
+    } as CheckToken;
+    this.store.dispatch(AuthConnectActions.checkTokenValidation({ data }));
+  }
 
   onRegister() {
     if (this.registerForm.valid) {
