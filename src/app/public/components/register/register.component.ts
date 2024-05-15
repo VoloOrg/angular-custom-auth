@@ -10,7 +10,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -37,7 +37,7 @@ import { Register } from '../../../shared/interfaces/auth/register.interface';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   private readonly store = inject(Store);
   private readonly route = inject(ActivatedRoute);
 
@@ -49,9 +49,6 @@ export class RegisterComponent implements OnInit {
   )();
   readonly email = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('email')))
-  )();
-  readonly type = toSignal(
-    this.route.queryParamMap.pipe(map((params) => params.get('type')))
   )();
 
   registerForm = new FormGroup(
@@ -89,15 +86,6 @@ export class RegisterComponent implements OnInit {
     { label: 'General', value: Role.General },
     { label: 'Special', value: Role.Special },
   ];
-
-  ngOnInit(): void {
-    const data = {
-      email: this.email,
-      token: this.token,
-      type: this.type,
-    } as CheckToken;
-    this.store.dispatch(AuthConnectActions.checkTokenValidation({ data }));
-  }
 
   onRegister() {
     if (this.registerForm.valid) {

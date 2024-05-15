@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -17,7 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CheckToken, Login, ResetPassword } from '../../../shared/interfaces';
+import { ResetPassword } from '../../../shared/interfaces';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 
@@ -29,7 +24,7 @@ import { ButtonModule } from 'primeng/button';
   imports: [InputTextModule, RouterLink, ButtonModule, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent {
   private readonly store = inject(Store);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -40,9 +35,6 @@ export class ResetPasswordComponent implements OnInit {
   )();
   readonly email = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('email')))
-  )();
-  readonly type = toSignal(
-    this.route.queryParamMap.pipe(map((params) => params.get('type')))
   )();
 
   resetForm = new FormGroup({
@@ -59,15 +51,6 @@ export class ResetPasswordComponent implements OnInit {
       validators: [Validators.required],
     }),
   });
-
-  ngOnInit(): void {
-    const data = {
-      email: this.email,
-      token: this.token,
-      type: this.type,
-    } as CheckToken;
-    this.store.dispatch(AuthConnectActions.checkTokenValidation({ data }));
-  }
 
   onReset() {
     if (this.resetForm.valid) {

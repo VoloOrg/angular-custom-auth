@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   computed,
   inject,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { AuthAccountActions } from '../store/actions/auth-account.actions';
 import { authAccountFeature } from '../store/features';
@@ -21,7 +19,7 @@ import { Role } from '../shared/enums/role.enum';
   imports: [RouterOutlet, MenubarModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PrivateComponent implements OnInit {
+export class PrivateComponent {
   private readonly store = inject(Store);
   currentUser = this.store.selectSignal(authAccountFeature.selectCurrentUser);
   role = Role;
@@ -51,6 +49,4 @@ export class PrivateComponent implements OnInit {
       command: () => this.store.dispatch(AuthAccountActions.logout()),
     },
   ]);
-
-  ngOnInit(): void {}
 }
