@@ -1,9 +1,12 @@
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { authAccountFeature } from '../../store/features';
 import { Role } from '../enums/role.enum';
 
 export function canInviteGuard() {
+  const store = inject(Store);
   const router = inject(Router);
-  const role = localStorage.getItem('role');
-  return Number(role) === Role.Admin || router.navigate(['/']);
+  const isAdmin = store.selectSignal(authAccountFeature.selectCurrentUser)();
+  return isAdmin?.role === Role.Admin || router.navigate(['/']);
 }

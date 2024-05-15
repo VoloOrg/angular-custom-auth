@@ -19,7 +19,6 @@ export const authAccountReducer = createReducer(
   ),
   immerOn(AuthAccountActions.getCurrentUserSuccess, (state, payload) => {
     state.currentUser = payload.data;
-    localStorage.setItem('role', payload.data.role.toString());
   })
 );
 

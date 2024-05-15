@@ -33,7 +33,7 @@ export class LoginComponent {
   loading = this.store.selectSignal(authConnectFeature.selectLoginLoading);
   loginForm = new FormGroup({
     email: new FormControl('', {
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.email],
     }),
     password: new FormControl('', {
       validators: [Validators.required],

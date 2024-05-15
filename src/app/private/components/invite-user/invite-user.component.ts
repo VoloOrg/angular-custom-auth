@@ -41,7 +41,7 @@ export class InviteUserComponent {
 
   inviteForm = new FormGroup({
     email: new FormControl('', {
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.email],
     }),
     role: new FormControl('', {
       validators: [Validators.required],

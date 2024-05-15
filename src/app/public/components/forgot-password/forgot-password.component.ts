@@ -30,7 +30,7 @@ export class ForgotPasswordComponent {
 
   forgotPasswordForm = new FormGroup({
     email: new FormControl('', {
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.email],
     }),
   });
 
