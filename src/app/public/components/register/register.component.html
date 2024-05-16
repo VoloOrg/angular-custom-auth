@@ -48,7 +48,13 @@
           formControlName="confirmPassword"
           class="w-full md:w-25rem"
       /></span>
-      <button pButton pRipple label="Sign Up" class="w-full mb-4"></button>
+      <button
+        pButton
+        pRipple
+        label="Sign Up"
+        class="w-full mb-4"
+        [disabled]="loading()"
+      ></button>
       <span class="font-medium text-600">
         Already have an account?
         <a

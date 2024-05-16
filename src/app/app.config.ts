@@ -22,7 +22,6 @@ import * as AuthAccountEffects from './store/effects/auth-account.effects';
 import * as AuthConnectEffects from './store/effects/auth-connect.effects';
 import { BASE_URL } from './shared/api';
 import { environment } from '../environments/environment';
-import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { appInitializer } from './app-initializer.factory';
 import CustomUrlSerializer from './shared/serializers/custom-url.serializer';
 import { HttpRequestInterceptor } from './shared/interceptors/http-request.interceptor';
@@ -47,11 +46,9 @@ export const appConfig: ApplicationConfig = {
     provideState(appFeature),
     provideState(authConnectFeature),
     provideState(authAccountFeature),
-    provideState('router', routerReducer),
     provideEffects([GlobalEffects, AuthAccountEffects, AuthConnectEffects]),
     provideRouter(routes),
     provideAnimations(),
-    provideRouterStore(),
     provideHttpClient(withInterceptorsFromDi()),
     MessageService,
     {

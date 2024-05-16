@@ -22,6 +22,7 @@ import { Role } from '../../../shared/enums/role.enum';
 import { DropdownModule } from 'primeng/dropdown';
 import { confirmedValidator } from '../../../shared/validators/confirm.validator';
 import { Register } from '../../../shared/interfaces/auth/register.interface';
+import { authConnectFeature } from '../../../store/features';
 
 @Component({
   standalone: true,
@@ -40,6 +41,7 @@ import { Register } from '../../../shared/interfaces/auth/register.interface';
 export class RegisterComponent {
   private readonly store = inject(Store);
   private readonly route = inject(ActivatedRoute);
+  loading = this.store.selectSignal(authConnectFeature.selectRegisterLoading);
 
   readonly token = toSignal(
     this.route.queryParamMap.pipe(map((params) => params.get('token')))
